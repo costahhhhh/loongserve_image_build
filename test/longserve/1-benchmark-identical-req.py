@@ -18,14 +18,18 @@ example_testing_params = [
             sp_world_size = 1,
             tp_world_size = 1,
             max_total_token_num = 101000,
+            # max_total_token_num = 1010,
             max_req_num = 16,
             max_seq_len = 101000
+            # max_seq_len = 1010
         ),
         input_params = [
             InputParam(
                 batch_size = 1,
                 input_len = 100,
+                # input_len = 10,
                 output_len = 16,
+                # output_len = 4,
                 num_sp_master = 1,
                 need_context_migration = False,
                 num_decoding_stage_migration = 0
@@ -266,16 +270,27 @@ def get_ae_figure2_params():
     """
     Get params for figure 2 in artifact evaluation
     """
-    tp_sizes = [1, 2, 4, 8]
+    # tp_sizes = [1, 2, 4, 8]
+    tp_sizes = [1]
+    # batch_size_input_lens = [
+    #     (16, 10),
+    #     (16, 50),
+    #     (16, 100),
+    #     (16, 500),
+    #     (1, 100),
+    #     (1, 1000),
+    #     (1, 10000),
+    #     (1, 100000),
+    # ]
     batch_size_input_lens = [
-        (16, 10),
-        (16, 50),
-        (16, 100),
-        (16, 500),
+        (4, 10),
+        (4, 20),
+        (4, 50),
+        (4, 100),
+        (1, 1),
+        (1, 10),
         (1, 100),
         (1, 1000),
-        (1, 10000),
-        (1, 100000),
     ]
     test_params = [
         TestParamGroup(
@@ -284,15 +299,18 @@ def get_ae_figure2_params():
                 mode = ["_token_decode_attention_overlapped"],
                 sp_world_size = 1,
                 tp_world_size = tp_size,
-                max_total_token_num = 101000,
+                # max_total_token_num = 101000,
+                max_total_token_num = 1010,
                 max_req_num = 16,
-                max_seq_len = 101000
+                # max_seq_len = 101000
+                max_seq_len = 1010
             ),
             input_params = [
                 InputParam(
                     batch_size = batch_size,
                     input_len = input_len,
-                    output_len = 16,
+                    # output_len = 16,
+                    output_len = 8,
                     num_sp_master = 1,
                     need_context_migration = False,
                     num_decoding_stage_migration = 0

@@ -17,9 +17,9 @@ args = parser.parse_args()
 ae_id = args.ae_id
 fig_id = args.fig
 
-figs_dir = f"/mnt/petrelfs/zhaoyihao/intlsy/research/exp-results/{ae_id}"
-EXP_RESULT_ROOT = f"/mnt/petrelfs/zhaoyihao/intlsy/research/exp-results/{ae_id}"
-analytical_model_path = f"/mnt/petrelfs/zhaoyihao/intlsy/research/exp-results/{ae_id}/analytical-model.csv"
+figs_dir = f"/workspace/exp-results/{ae_id}"
+EXP_RESULT_ROOT = f"/workspace/exp-results/{ae_id}"
+analytical_model_path = f"/workspace/exp-results/{ae_id}/analytical-model.csv"
 
 def set_xinjin_style(ax: mpl_axes.Axes):
     ax.tick_params('x', direction="in")

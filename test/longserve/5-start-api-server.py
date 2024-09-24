@@ -73,7 +73,7 @@ def api_server_starter_routine(
         max_model_len = get_vllm_max_params(args)
         # NOTE Here we do not set CUDA_VISIBLE_DEVICES since ray will set it automatically
         script = f"""
-cd /mnt/petrelfs/zhaoyihao/intlsy/research;
+cd /workspace;
 . vllm/start-env.fish;
 python -u -m vllm.entrypoints.api_server \\
     --host 0.0.0.0 --port {port} \\
@@ -104,7 +104,7 @@ python -u -m vllm.entrypoints.api_server \\
             "zipf1": 512
         }[args.dataset]
         script = f"""
-cd /mnt/petrelfs/zhaoyihao/intlsy/research;
+cd /workspace;
 . lightllm-sf/start-env.fish;
 python -u -m lightllm.server.api_server \\
     --host 0.0.0.0 --port {port} \\
@@ -124,7 +124,7 @@ python -u -m lightllm.server.api_server \\
         max_req_len = min(max_total_token_num * args.sp, 500000)
         script = f"""
 export CUDA_VISIBLE_DEVICES={gpu_ids};
-cd /mnt/petrelfs/zhaoyihao/intlsy/research/LongServe;
+cd /workspace/LoongServe;
 python -u -m loongserve.longserve_server.api_server \\
     --host 0.0.0.0 --port {port} \\
     --model_dir {args.model} --tokenizer_mode auto \\
@@ -141,7 +141,7 @@ python -u -m loongserve.longserve_server.api_server \\
     --local_world_size {min(gpus_per_worker, 8)} \\
     --max_wait_tokens 10 \\
     --min_comp_bound_decoding_batch_size 128 \\
-    --profiler_file_path /mnt/petrelfs/zhaoyihao/intlsy/research/exp-results/{args.ae_id}/analytical-model.csv \\
+    --profiler_file_path /workspace/exp-results/{args.ae_id}/analytical-model.csv \\
     --max_num_ooe {max_num_ooe} {"--use_fixed_sp" if args.backend == "longserve-fixsp" else ""} \\
     {f"--disable_scale_up" if args.disable_scale_up else ""} \\
     {f"--with_log_trace {args.with_log_trace}" if args.with_log_trace else ""}
@@ -152,7 +152,7 @@ python -u -m loongserve.longserve_server.api_server \\
         assert args.pp == 1, "Pipeline parallelism is not supported in DeepSpeed."
         assert args.sp == 1, "Pipeline parallelism is not supported in DeepSpeed."
         script = f"""
-cd /mnt/petrelfs/zhaoyihao/intlsy/research;
+cd /workspace;
 . DeepSpeed-MII/start-env.fish;
 unset https_proxy; unset http_proxy; unset all_proxy;
 unset HTTPS_PROXY; unset HTTP_PROXY; unset ALL_PROXY;
@@ -169,7 +169,7 @@ python -m mii.entrypoints.api_server \\
         if args.model == MODEL_PATH_LWM:
             args.model = MODEL_PATH_LWM_DISTSERVE
         script = f"""
-cd /mnt/petrelfs/zhaoyihao/intlsy/research;
+cd /workspace;
 . DistServe/start-env.fish;
 python DistServe/distserve/api_server/distserve_api_server.py \\
     --host 0.0.0.0 \\
