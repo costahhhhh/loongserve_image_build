@@ -18,8 +18,9 @@ def api_server_starter_routine(
     args: argparse.Namespace
 ):
     def get_vllm_max_params(args):
+        # 105000 if args.tp == 1 else \
         max_model_len = \
-            105000 if args.tp == 1 else \
+            105 if args.tp == 1 else \
             220000 if args.tp == 2 else \
             410000 if args.tp == 4 else \
             500000 if args.tp == 8 else \
@@ -73,6 +74,9 @@ def api_server_starter_routine(
         assert args.sp == 1, "Sequence parallelism is not supported in VLLM."
         max_model_len = get_vllm_max_params(args)
         # NOTE Here we do not set CUDA_VISIBLE_DEVICES since ray will set it automatically
+        # --block-size 16 --seed 0 \\
+        # --max-model-len {max_model_len} --gpu-memory-utilization 0.98 \\
+        # --max-num-batched-tokens 600000 \\
         script = f"""
 cd /workspace;
 . vllm/start-env.fish;
@@ -86,7 +90,7 @@ python -u -m vllm.entrypoints.api_server \\
     --max-model-len {max_model_len} --gpu-memory-utilization 0.98 \\
     --swap-space 32 \\
     --tokenizer-mode auto \\
-    --max-num-batched-tokens 600000 \\
+    --max-num-batched-tokens 60000 \\
     --max-num-seqs 1024
         """
 
