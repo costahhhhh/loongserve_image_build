@@ -27,8 +27,9 @@ def api_server_starter_routine(
         return max_model_len
     
     def get_lightllm_params(args):
+        # 110000 if args.tp == 1 else \ ## this max_total_token_num is essential
         max_total_token_num = \
-            110000 if args.tp == 1 else \
+            11000 if args.tp == 1 else \
             210000 if args.tp == 2 else \
             500000 if args.tp == 4 else \
             900000 if args.tp == 8 else \
