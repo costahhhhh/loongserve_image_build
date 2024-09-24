@@ -327,17 +327,20 @@ def get_ae_figure3_params():
     Get params for figure 3 in artifact evaluation
     """
     sp_and_tp_world_sizes = [
-		(1, 8),
-		(2, 4),
-		(4, 2),
+		# (1, 8),
+		# (2, 4),
+		# (4, 2),
+        (1,1)
 	]
     batch_size_and_input_lens = [
-		(512, 1000, [1, 2, 4]),
-		(128, 5000, [1, 1, 2]),
-		(64, 10000, [1, 1, 2]),
-		(16, 50000, [1, 1, 1]),
-		(4, 100000, [1, 1, 1]),
-		(1, 500000, [1, 1, 1])
+		# (512, 1000, [1, 2, 4]),
+		# (128, 5000, [1, 1, 2]),
+		# (64, 10000, [1, 1, 2]),
+		# (16, 50000, [1, 1, 1]),
+		# (4, 100000, [1, 1, 1]),
+		# (1, 500000, [1, 1, 1])
+
+		(1, 5000, [1, 1, 1])
 	]
     test_params = [
         TestParamGroup(
@@ -346,7 +349,8 @@ def get_ae_figure3_params():
                 mode = ["_token_decode_attention_overlapped"],
                 sp_world_size = sp_size,
                 tp_world_size = tp_size,
-                max_total_token_num = 810000//sp_size,
+                # max_total_token_num = 810000//sp_size,
+                max_total_token_num = 8100//sp_size,
                 max_req_num = 512,
                 max_seq_len = 501000
             ),
@@ -354,7 +358,8 @@ def get_ae_figure3_params():
                 InputParam(
                     batch_size = batch_size,
                     input_len = input_len,
-                    output_len = 16,
+                    # output_len = 16,
+                    output_len = 8,
                     num_sp_master = num_sp_masters[sp_tp_index],
                     need_context_migration = False,
                     num_decoding_stage_migration = 0
@@ -371,16 +376,20 @@ def get_ae_figure13_params():
     Get params for figure 13 in artifact evaluation
     """
     batch_size_and_input_lens = [
-        (1024, 10), (256, 100), (64, 1000), (16, 10000), (4, 50000), (2, 100000), (1, 200000)
+        # (1024, 10), (256, 100), (64, 1000), (16, 10000), (4, 50000), (2, 100000), (1, 200000)
+        (2,1)
     ]
     scale_down_test_params = [
         TestParamGroup(
             worker_param=WorkerParam(
                 model_dir = os.environ.get("LWM_WEIGHT_PATH", "Env `LWM_WEIGHT_PATH` is not set!"),
                 mode = ["_token_decode_attention_overlapped"],
-                sp_world_size = 4,
-                tp_world_size = 2,
-                max_total_token_num = 210000,
+                # sp_world_size = 4,
+                # tp_world_size = 2,
+                sp_world_size = 1,
+                tp_world_size = 1,
+                # max_total_token_num = 210000,
+                max_total_token_num = 2100,
                 max_req_num = 1024,
                 max_seq_len = 200100
             ),
@@ -388,7 +397,8 @@ def get_ae_figure13_params():
                 InputParam(
                     batch_size = batch_size,
                     input_len = input_len,
-                    output_len = 16,
+                    # output_len = 16,
+                    output_len = 8,
                     num_sp_master = 1,
                     need_context_migration = need_context_migration,
                     num_decoding_stage_migration = 0
@@ -403,9 +413,12 @@ def get_ae_figure13_params():
             worker_param=WorkerParam(
                 model_dir = os.environ.get("LWM_WEIGHT_PATH", "Env `LWM_WEIGHT_PATH` is not set!"),
                 mode = ["_token_decode_attention_overlapped"],
-                sp_world_size = 4,
-                tp_world_size = 2,
-                max_total_token_num = 210000 // 4,
+                # sp_world_size = 4,
+                # tp_world_size = 2,
+                sp_world_size = 1,
+                tp_world_size = 1,
+                # max_total_token_num = 210000 // 4,
+                max_total_token_num = 2100 // 4,
                 max_req_num = 1024,
                 max_seq_len = 200100
             ),
@@ -413,7 +426,8 @@ def get_ae_figure13_params():
                 InputParam(
                     batch_size = batch_size,
                     input_len = input_len,
-                    output_len = 16,
+                    # output_len = 16,
+                    output_len = 8,
                     num_sp_master = num_sp_master,
                     need_context_migration = False,
                     num_decoding_stage_migration = 0
