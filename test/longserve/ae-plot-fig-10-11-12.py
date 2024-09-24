@@ -119,6 +119,9 @@ def plot_one_latency_rate_plot(ax: mpl_axes.Axes, dataset: str, retriever: Calla
             cur_ys.append(retriever(metrics, req_results, plot_row)/normalizer)
         
         ax.plot(cur_xs, cur_ys, label=cur_backend.label, marker=cur_backend.marker, color=cur_backend.color)
+        print("cur_xs is ",cur_xs)
+        print(cur_ys)
+        print(cur_backend.label)
         intersection_points.append(get_intersection_point(cur_xs, cur_ys, intersection_y) if intersection_y is not None else 0.0)
     return intersection_points
 
@@ -176,15 +179,15 @@ def draw_fig_10():
     backends = [
         BackendConfig("longserve", "LoongServe", "C0", "o"),
         BackendConfig("vllm", "vLLM", "C1", "s"),
-        BackendConfig("deepspeed", "DeepSpeed MII (Dynamic SplitFuse)", "C2", "v"),
-        BackendConfig("distserve", "DistServe (Prefill-Decoding Disaggregation)", "C4", "^"),
-        BackendConfig("lightllm-sf", "LightLLM w/ SplitFuse", "C3", "D"),
+        # BackendConfig("deepspeed", "DeepSpeed MII (Dynamic SplitFuse)", "C2", "v"),
+        # BackendConfig("distserve", "DistServe (Prefill-Decoding Disaggregation)", "C4", "^"),
+        # BackendConfig("lightllm-sf", "LightLLM w/ SplitFuse", "C3", "D"),
     ]
     row_configs = [
         PlotRowConfig("ShareGPT", "ShareGPT"),
-        PlotRowConfig("LEval", "LEval"),
-        PlotRowConfig("LV-Eval", "LV-Eval"),
-        PlotRowConfig("Mixed1", "Mixed"),
+        # PlotRowConfig("LEval", "LEval"),
+        # PlotRowConfig("LV-Eval", "LV-Eval"),
+        # PlotRowConfig("Mixed1", "Mixed"),
     ]
     col_configs = [
         PlotColConfig("Avg token latency", lambda x, _, row: x.avg_per_token_latency_ms),
@@ -203,11 +206,12 @@ def draw_fig_10():
         for row in range(len(slos))
     ]
     
-    fig, axs = plt.subplots(4, 3, figsize=(20, 15))
+    # fig, axs = plt.subplots(4, 3, figsize=(20, 15))
+    fig, axs = plt.subplots(2, 3, figsize=(20, 15))
     draw_one_row_of_plots(fig, axs[0], 0, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
-    draw_one_row_of_plots(fig, axs[1], 1, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
-    draw_one_row_of_plots(fig, axs[2], 2, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
-    draw_one_row_of_plots(fig, axs[3], 3, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
+    # draw_one_row_of_plots(fig, axs[1], 1, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
+    # draw_one_row_of_plots(fig, axs[2], 2, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
+    # draw_one_row_of_plots(fig, axs[3], 3, backends, row_configs, col_configs, y_limits, slos, normalize_to_slo=True)
 
     save_fig("fig10.png")
 

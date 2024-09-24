@@ -20,7 +20,7 @@ def api_server_starter_routine(
     def get_vllm_max_params(args):
         # 105000 if args.tp == 1 else \
         max_model_len = \
-            105 if args.tp == 1 else \
+            11000 if args.tp == 1 else \
             220000 if args.tp == 2 else \
             410000 if args.tp == 4 else \
             500000 if args.tp == 8 else \
